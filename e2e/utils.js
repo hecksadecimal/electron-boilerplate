@@ -4,7 +4,9 @@ var getPathToApp = function () {
     var manifest = require('../app/package.json');
     switch (process.platform) {
         case "darwin":
-            return './tmp/' + manifest.productName + '.app/Contents/MacOS/' + manifest.productName;
+            return 'tmp/' + manifest.productName + '.app/Contents/MacOS/' + manifest.productName;
+        case "win32":
+            return 'tmp/' + manifest.name + '/' + manifest.productName + '.exe';
     }
 };
 
