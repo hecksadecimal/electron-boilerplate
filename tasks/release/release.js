@@ -5,13 +5,13 @@ var utils = require('../utils');
 
 var packageForOs = {
     osx: require('./osx_package'),
-    linux: require('./linux'),
+    linux: require('./linux_package'),
     windows: require('./windows_package'),
 };
 
 var releaseForOs = {
     osx: require('./osx_release'),
-    linux: require('./linux'),
+    linux: require('./linux_release'),
     windows: require('./windows_release'),
 };
 

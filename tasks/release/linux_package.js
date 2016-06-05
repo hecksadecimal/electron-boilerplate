@@ -8,7 +8,6 @@ var asar = require('asar');
 var utils = require('../utils');
 
 var projectDir;
-var releasesDir;
 var packName;
 var packDir;
 var tmpDir;
@@ -18,7 +17,6 @@ var manifest;
 var init = function () {
     projectDir = jetpack;
     tmpDir = projectDir.dir('./tmp', { empty: true });
-    releasesDir = projectDir.dir('./releases');
     manifest = projectDir.read('app/package.json', 'json');
     packName = utils.getReleasePackageName(manifest);
     packDir = tmpDir.dir(packName);
@@ -65,55 +63,11 @@ var renameApp = function () {
     return readyAppDir.renameAsync('electron', manifest.name);
 };
 
-var packToDebFile = function () {
-    var deferred = Q.defer();
-
-    var debFileName = packName + '.deb';
-    var debPath = releasesDir.path(debFileName);
-
-    gulpUtil.log('Creating DEB package... (' + debFileName + ')');
-
-    // Counting size of the app in KiB
-    var appSize = Math.round(readyAppDir.inspectTree('.').size / 1024);
-
-    // Preparing debian control file
-    var control = projectDir.read('resources/linux/DEBIAN/control');
-    control = utils.replace(control, {
-        name: manifest.name,
-        description: manifest.description,
-        version: manifest.version,
-        author: manifest.author,
-        size: appSize
-    });
-    packDir.write('DEBIAN/control', control);
-
-    // Build the package...
-    childProcess.exec('fakeroot dpkg-deb -Zxz --build ' + packDir.path().replace(/\s/g, '\\ ') + ' ' + debPath.replace(/\s/g, '\\ '),
-        function (error, stdout, stderr) {
-            if (error || stderr) {
-                console.log('ERROR while building DEB package:');
-                console.log(error);
-                console.log(stderr);
-            } else {
-                gulpUtil.log('DEB package ready!', debPath);
-            }
-            deferred.resolve();
-        });
-
-    return deferred.promise;
-};
-
-var cleanClutter = function () {
-    return tmpDir.removeAsync('.');
-};
-
 module.exports = function () {
     return init()
         .then(copyRuntime)
         .then(packageBuiltApp)
         .then(finalize)
         .then(renameApp)
-        .then(packToDebFile)
-        .then(cleanClutter)
         .catch(console.error);
 };

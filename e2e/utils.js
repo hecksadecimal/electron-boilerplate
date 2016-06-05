@@ -7,6 +7,8 @@ var getPathToApp = function () {
             return 'tmp/' + manifest.productName + '.app/Contents/MacOS/' + manifest.productName;
         case "win32":
             return 'tmp/' + manifest.name + '/' + manifest.productName + '.exe';
+        case "linux":
+            return 'tmp/' + manifest.name + '/' + manifest.productName;
     }
 };
 
