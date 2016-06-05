@@ -8,7 +8,7 @@ var getPathToApp = function () {
         case "win32":
             return 'tmp/' + manifest.name + '/' + manifest.productName + '.exe';
         case "linux":
-            return 'tmp/' + manifest.name + '/' + manifest.productName;
+            return 'tmp/' + manifest.name + '/' + manifest.name;
     }
 };
 

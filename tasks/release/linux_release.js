@@ -27,6 +27,24 @@ var init = function () {
     return new Q();
 };
 
+var finalize = function () {
+    // Create .desktop file from the template
+    var desktop = projectDir.read('resources/linux/app.desktop');
+    desktop = utils.replace(desktop, {
+        name: manifest.name,
+        productName: manifest.productName,
+        description: manifest.description,
+        version: manifest.version,
+        author: manifest.author
+    });
+    packDir.write('usr/share/applications/' + manifest.name + '.desktop', desktop);
+
+    // Copy icon
+    projectDir.copy('resources/icon.png', readyAppDir.path('icon.png'));
+
+    return new Q();
+};
+
 var packToDebFile = function () {
     var deferred = Q.defer();
 
@@ -71,6 +89,7 @@ var cleanClutter = function () {
 
 module.exports = function () {
     return init()
+        .then(finalize)
         .then(packToDebFile)
         .then(cleanClutter)
         .catch(console.error);
