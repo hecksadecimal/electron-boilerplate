@@ -29,7 +29,7 @@
     "pretest": "gulp build --env=test",
     "test": "electron-mocha build --renderer",
     "pree2e": "gulp package --env=e2e",
-    "e2e": "mocha './e2e/**/*.e2e.js'",
+    "e2e": "mocha ./e2e/**/*.e2e.js",
     "install-native": "node ./tasks/install_native_module"
   }
 }
