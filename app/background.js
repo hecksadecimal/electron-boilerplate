@@ -16,7 +16,7 @@ var mainWindow;
 
 var setApplicationMenu = function () {
     var menus = [editMenuTemplate];
-    if (env.name !== 'production') {
+    if (env.name === 'development') {
         menus.push(devMenuTemplate);
     }
     Menu.setApplicationMenu(Menu.buildFromTemplate(menus));
@@ -32,7 +32,7 @@ app.on('ready', function () {
 
     mainWindow.loadURL('file://' + __dirname + '/app.html');
 
-    if (env.name !== 'production') {
+    if (env.name === 'development') {
         mainWindow.openDevTools();
     }
 });

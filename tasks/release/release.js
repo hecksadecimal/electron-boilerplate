@@ -3,12 +3,22 @@
 var gulp = require('gulp');
 var utils = require('../utils');
 
-var releaseForOs = {
-    osx: require('./osx'),
+var packageForOs = {
+    osx: require('./osx_package'),
     linux: require('./linux'),
     windows: require('./windows'),
 };
 
-gulp.task('release', ['build'], function () {
+var releaseForOs = {
+    osx: require('./osx_release'),
+    linux: require('./linux'),
+    windows: require('./windows'),
+};
+
+gulp.task('package', ['build'], function () {
+    return packageForOs[utils.os()]();
+});
+
+gulp.task('release', ['package'], function () {
     return releaseForOs[utils.os()]();
 });
