@@ -10,16 +10,12 @@ import createWindow from './helpers/window';
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
-import env from './env';
 
 var mainWindow;
 
 var setApplicationMenu = function () {
     var menus = [editMenuTemplate];
-    if (env.name !== 'production') {
-        menus.push(devMenuTemplate);
-    }
-    Menu.setApplicationMenu(Menu.buildFromTemplate(menus));
+    menus.push(devMenuTemplate);
 };
 
 app.on('ready', function () {
@@ -31,10 +27,6 @@ app.on('ready', function () {
     });
 
     mainWindow.loadURL('file://' + __dirname + '/app.html');
-
-    if (env.name !== 'production') {
-        mainWindow.openDevTools();
-    }
 });
 
 app.on('window-all-closed', function () {
