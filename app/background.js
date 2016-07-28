@@ -11,6 +11,8 @@ import createWindow from './helpers/window';
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
 
+app.disableHardwareAcceleration()
+
 var mainWindow;
 
 var setApplicationMenu = function () {

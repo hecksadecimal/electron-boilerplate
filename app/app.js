@@ -7,15 +7,20 @@ function remove(id) {
 }
 
 function header_log(text) {
-  $('#terminal').append('<p></p>').text(text);
-  $('#terminal').append('<br />')
+  $('#terminal_items').prepend('<li>'+ text + '</li>');
 }
 
 function onMessage(e) {
   //header_log(e.data);
   var data = $.parseJSON(e.data);
+  console.log(data);
   if (data.event === "ChatMessage") {
-    var msg = data.data.message.message[0].text.split(" ");
+    var fullmsg = "";
+    data.data.message.message.forEach(function(i) {
+      fullmsg += i.text;
+      console.log(fullmsg);
+    });
+    var msg = fullmsg.split(" ");
     if (msg[0] === "!eval") {
       msg.shift();
       msg = msg.join(" ");
@@ -70,7 +75,7 @@ function initialize () {
   })
   wview.addEventListener('console-message', (e) => {
     var msg = e.message;
-    header_log('Console: \t' + msg);
+    header_log('> ' + msg);
   });
 }
 

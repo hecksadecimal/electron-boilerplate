@@ -14,10 +14,25 @@
     <div class="container">
         <header>
             <div id='help'>To get started, type !eval followed by any valid javascript. Type !reset to clear all changes made.</div>
-            <div id='terminal'></div>
+            <div id='terminal'>
+              <ul id='terminal_items'>
+              </ul>
+            </div>
         </header>
         <div class="content">
-            <webview id="wview" style="width: 100%; height: 100%;" src="data:text/html,<html><head></head><body></body></html>" />
+            <webview id="wview" style="width: 100%; height: 100%;" src="data:text/html,
+            <html>
+              <head>
+                <style>
+                  body {
+                    background-color: #BBBBBB;
+                  }
+                </style>
+              </head>
+              <body>
+              </body>
+            </html>
+            " />
         </div>
         <div class="init">
             <input id="uname" type="text" placeholder="Beam Username"/>
